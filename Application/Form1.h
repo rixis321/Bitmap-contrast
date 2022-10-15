@@ -3,8 +3,10 @@
 // uncomment to execute the rk1-utils:
 //    #include "rk1_Utils_demo.h"  // shows how the rk1-utils can be used
 
+
 #include "Header1.h"
 #include "Header2.h"
+#include "Utility.h"
 
 
 namespace CppCLRWinFormsProject {
@@ -135,13 +137,12 @@ namespace CppCLRWinFormsProject {
         // 
         // picture1
         // 
-        this->picture1->Location = System::Drawing::Point(12, 223);
+        this->picture1->Location = System::Drawing::Point(12, 143);
         this->picture1->Name = L"picture1";
         this->picture1->Size = System::Drawing::Size(295, 213);
         this->picture1->TabIndex = 4;
         this->picture1->TabStop = false;
         this->picture1->Click += gcnew System::EventHandler(this, &Form1::pictureBox1_Click);
-        
         // 
         // Form1
         // 
@@ -201,8 +202,29 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
         if ((myStream = openFileDialog1->OpenFile()) != nullptr) {
 
 
-             this->picture1->ImageLocation = openFileDialog1->FileName;
-             System::Drawing::Bitmap::FromFile(this->picture1->ImageLocation);
+              this->picture1->ImageLocation = openFileDialog1->FileName;
+              std::string path;
+              MarshalString(this->picture1->ImageLocation, path);
+
+              char header[54];
+              FILE* input = fopen(path.c_str(), "rb");
+              fread(header, 1, 54, input);
+
+              if (*(int*)(header + 28) == 24) {
+
+                  System::Drawing::Bitmap::FromFile(this->picture1->ImageLocation);
+              }
+              else {
+                
+                  MessageBox::Show("Bitmap is not in 24bit format. Try with different bmp file.", "Error",
+                      System::Windows::Forms::MessageBoxButtons::OK,
+                      System::Windows::Forms::MessageBoxIcon::Error);
+                 
+              }
+
+             
+            // FILE* input = fopen(, "rb");
+           //  System::Drawing::Bitmap::FromFile(this->picture1->ImageLocation);
             myStream->Close();
             
            
