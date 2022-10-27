@@ -7,7 +7,7 @@
 #include "Header1.h"
 #include "Header2.h"
 #include "Utility.h"
-
+#include "cppAlg.h"
 
 namespace CppCLRWinFormsProject {
 
@@ -54,6 +54,9 @@ namespace CppCLRWinFormsProject {
   private: System::Windows::Forms::Label^ label1;
   private: System::Windows::Forms::Button^ button1;
   private: System::Windows::Forms::PictureBox^ picture1;
+  private: System::Windows::Forms::PictureBox^ picture2;
+
+  private: System::Windows::Forms::Button^ button2;
 
 
 
@@ -87,7 +90,10 @@ namespace CppCLRWinFormsProject {
         this->label1 = (gcnew System::Windows::Forms::Label());
         this->button1 = (gcnew System::Windows::Forms::Button());
         this->picture1 = (gcnew System::Windows::Forms::PictureBox());
+        this->picture2 = (gcnew System::Windows::Forms::PictureBox());
+        this->button2 = (gcnew System::Windows::Forms::Button());
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture1))->BeginInit();
+        (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture2))->BeginInit();
         this->SuspendLayout();
         // 
         // radioButton1
@@ -127,11 +133,11 @@ namespace CppCLRWinFormsProject {
         // 
         // button1
         // 
-        this->button1->Location = System::Drawing::Point(361, 60);
+        this->button1->Location = System::Drawing::Point(494, 60);
         this->button1->Name = L"button1";
         this->button1->Size = System::Drawing::Size(138, 46);
         this->button1->TabIndex = 3;
-        this->button1->Text = L"Open file";
+        this->button1->Text = L"Wybierz plik";
         this->button1->UseVisualStyleBackColor = true;
         this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
         // 
@@ -139,16 +145,37 @@ namespace CppCLRWinFormsProject {
         // 
         this->picture1->Location = System::Drawing::Point(12, 143);
         this->picture1->Name = L"picture1";
-        this->picture1->Size = System::Drawing::Size(295, 213);
+        this->picture1->Size = System::Drawing::Size(394, 306);
         this->picture1->TabIndex = 4;
         this->picture1->TabStop = false;
-        this->picture1->Click += gcnew System::EventHandler(this, &Form1::pictureBox1_Click);
+        
+        // 
+        // picture2
+        // 
+        this->picture2->Location = System::Drawing::Point(459, 143);
+        this->picture2->Name = L"picture2";
+        this->picture2->Size = System::Drawing::Size(394, 306);
+        this->picture2->TabIndex = 5;
+        this->picture2->TabStop = false;
+       
+        // 
+        // button2
+        // 
+        this->button2->Location = System::Drawing::Point(366, 464);
+        this->button2->Name = L"button2";
+        this->button2->Size = System::Drawing::Size(128, 72);
+        this->button2->TabIndex = 6;
+        this->button2->Text = L"Start";
+        this->button2->UseVisualStyleBackColor = true;
+        this->button2->Click += gcnew System::EventHandler(this, &Form1::button2_Click);
         // 
         // Form1
         // 
         this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
         this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-        this->ClientSize = System::Drawing::Size(793, 498);
+        this->ClientSize = System::Drawing::Size(878, 611);
+        this->Controls->Add(this->button2);
+        this->Controls->Add(this->picture2);
         this->Controls->Add(this->picture1);
         this->Controls->Add(this->button1);
         this->Controls->Add(this->label1);
@@ -159,6 +186,7 @@ namespace CppCLRWinFormsProject {
         this->Text = L"Form1";
         this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture1))->EndInit();
+        (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture2))->EndInit();
         this->ResumeLayout(false);
 
     }
@@ -203,6 +231,7 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 
 
               this->picture1->ImageLocation = openFileDialog1->FileName;
+              this->picture2->ImageLocation = openFileDialog1->FileName;
               std::string path;
               MarshalString(this->picture1->ImageLocation, path);
 
@@ -233,10 +262,11 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
     }
 }
 
-private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
 
+
+
+private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 }
-
 
 }; // end of class Form1
 } // end of namespace CppCLRWinFormsProject
