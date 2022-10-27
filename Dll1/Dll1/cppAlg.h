@@ -9,4 +9,4 @@
 #endif
 
 
-extern "C" CPPLIBRARY void contrastAlgorithm(unsigned char* buf, unsigned char* part, int start, int end, float intensity);
+extern "C" CPPLIBRARY void cppAlg(unsigned char* buf, unsigned char* part, int start, int end, float factor);
