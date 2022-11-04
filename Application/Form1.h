@@ -1,19 +1,22 @@
 #pragma once
-
-// uncomment to execute the rk1-utils:
-//    #include "rk1_Utils_demo.h"  // shows how the rk1-utils can be used
-
-
-#include "Header1.h"
-#include "Header2.h"
-#include "Utility.h"
 #include <iostream>
 #include <thread>
 #include <vector>
 #include "cppAlg.h"
-
+#include "Utility.h"
+#include "startAsm.h"
 #pragma warning(disable : 4996)
+
+
+
+
+
+
+
+
 namespace CppCLRWinFormsProject {
+   
+   
 
   using namespace System;
   using namespace System::ComponentModel;
@@ -39,6 +42,8 @@ namespace CppCLRWinFormsProject {
       this->isLoaded = false;
       this->numberOfThreads = 1;
       this->contrastRatio = 0;
+      this->libraryFlag = false;
+
       
     }
 
@@ -64,11 +69,13 @@ namespace CppCLRWinFormsProject {
 
   private: System::Windows::Forms::TrackBar^ trackBar1;
 
-  private: int contrastRatio;
-  private: int maxNumbOfThreads;
-  private: int numberOfThreads;
-  private: bool isLoaded;
-  private: System::String^ path;
+  private: bool libraryFlag; // flaga kontrolujaca wybor bilbioteki (true = C++, fakse = ASM)
+  private: int contrastRatio;// wspolczynnik kontrastu
+  private: int maxNumbOfThreads;// maksymalna ilosc watkow komputera
+  private: int numberOfThreads; // ilosc watkow wybierana w programie
+  private: bool isLoaded; // flaga sterujaca czy plik zostal wczytany poprawnie
+  private: double time; // czas wykonania funkcji 
+  private: System::String^ path;// sciezka do pliku 
   private: System::Windows::Forms::Label^ label2;
   private: System::Windows::Forms::Label^ label3;
   private: System::Windows::Forms::Label^ label4;
@@ -78,6 +85,7 @@ namespace CppCLRWinFormsProject {
   private: System::Windows::Forms::Label^ label7;
   private: System::Windows::Forms::Label^ label8;
   private: System::Windows::Forms::Label^ label9;
+  private: System::Windows::Forms::Label^ label10;
 
 
 
@@ -123,6 +131,7 @@ namespace CppCLRWinFormsProject {
         this->label7 = (gcnew System::Windows::Forms::Label());
         this->label8 = (gcnew System::Windows::Forms::Label());
         this->label9 = (gcnew System::Windows::Forms::Label());
+        this->label10 = (gcnew System::Windows::Forms::Label());
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture1))->BeginInit();
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture2))->BeginInit();
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
@@ -311,11 +320,22 @@ namespace CppCLRWinFormsProject {
         this->label9->TabIndex = 16;
         this->label9->Text = L"label9";
         // 
+        // label10
+        // 
+        this->label10->AutoSize = true;
+        this->label10->Location = System::Drawing::Point(681, 634);
+        this->label10->Name = L"label10";
+        this->label10->Size = System::Drawing::Size(51, 16);
+        this->label10->TabIndex = 17;
+        this->label10->Text = L"label10";
+        
+        // 
         // Form1
         // 
         this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
         this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
         this->ClientSize = System::Drawing::Size(911, 703);
+        this->Controls->Add(this->label10);
         this->Controls->Add(this->label9);
         this->Controls->Add(this->label8);
         this->Controls->Add(this->label7);
@@ -359,13 +379,13 @@ namespace CppCLRWinFormsProject {
   }
   private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
       //DO ZROBIENIA
-      int number = 15;
+      this->libraryFlag = false;
 
   }
 private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
     if (radioButton2->Checked) {
         // DO ZROBIENIA
-        int number = 10;
+        this->libraryFlag = true;
     }
 }
 
@@ -496,10 +516,21 @@ private: System::Void startButton_Click(System::Object^ sender, System::EventArg
         y = 1;
 
         std::vector<std::thread> thread;
+        auto timerStart = std::chrono::steady_clock::now(); // czas startu
 
         /* Watki programu wykonujace algorytm */
         for (int i = 0; i < this->numberOfThreads; i++) {
-            thread.push_back(std::thread(&cppAlg, buf, std::ref(parts[i]), indexesPerThread[x], indexesPerThread[y], factor));
+
+            if (this->libraryFlag == false) {
+
+                thread.push_back(std::thread(&cppAlg, buf, std::ref(parts[i]), indexesPerThread[x], indexesPerThread[y], factor));
+
+            }
+            else if (this->libraryFlag == true) {
+
+                thread.push_back(std::thread(&startAsm, buf, std::ref(parts[i]), indexesPerThread[x], indexesPerThread[y], factor));
+  
+            }
             x += 2;
             y += 2;
         }
@@ -509,7 +540,10 @@ private: System::Void startButton_Click(System::Object^ sender, System::EventArg
 
             }
         }
-
+        auto timerEnd = std::chrono::steady_clock::now(); // czas konca
+        auto finalTime = timerEnd - timerStart;
+        this->time = std::chrono::duration<double, std::milli>(finalTime).count();
+        
         x = 0;
         y = 1;
         /* Zapisanie gotowych czesci bitmapy do pliku wyjsciowego */
@@ -534,6 +568,8 @@ private: System::Void startButton_Click(System::Object^ sender, System::EventArg
 
         parts.clear();
         delete[] buf;
+
+        this->label10->Text = this->time.ToString();
     }
     else {
         MessageBox::Show("Bitmap is not loaded. Open a file first. ", "INformation",
@@ -558,6 +594,7 @@ private: System::Void trackBar2_Scroll(System::Object^ sender, System::EventArgs
     this->trackBar2->Maximum = this->maxNumbOfThreads;
     
 }
+
 }; // end of class Form1
 } // end of namespace CppCLRWinFormsProject
 

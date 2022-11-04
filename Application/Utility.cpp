@@ -1,9 +1,17 @@
 #include "pch.h"
 #include"Utility.h"
+
+
+
+
+
+
+
 /* Funkcja zamieniajaca system stringa na zwyklego stringa */
-void MarshalString(String^ s, std::string& outputstring)
+void MarshalString(System::String^ s, std::string& outputstring)
 {
-    const char* kPtoC = (const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+    const char* kPtoC = (const char*)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(s)).ToPointer();
     outputstring = kPtoC;
-    Marshal::FreeHGlobal(IntPtr((void*)kPtoC));
+    System::Runtime::InteropServices::Marshal::FreeHGlobal(System::IntPtr((void*)kPtoC));
 }
+

@@ -1,3 +1,2 @@
 LIBRARY JaAsm
-EXPORTS MyProc
-EXPORTS FloatProc
+EXPORTS AsmAlg

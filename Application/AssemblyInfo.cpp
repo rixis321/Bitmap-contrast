@@ -18,3 +18,4 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyVersionAttribute(L"1.0.*")];
 
 [assembly:ComVisible(false)];
+[assembly:CLSCompliantAttribute(true)] ;

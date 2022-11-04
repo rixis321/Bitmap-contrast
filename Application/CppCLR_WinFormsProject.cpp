@@ -1,6 +1,5 @@
 #include "pch.h"
 
-using namespace System;
 
 // int main(array<System::String ^> ^args)
 // {
@@ -9,16 +8,16 @@ using namespace System;
 #include <iostream>
 #include "Form1.h"
 
-using namespace System::Windows::Forms;
 
 
-[STAThread]
+
+[System::STAThread]
 int main()
 {
 	
 	
-  Application::EnableVisualStyles();
-  Application::SetCompatibleTextRenderingDefault(false);
-  Application::Run(gcnew CppCLRWinFormsProject::Form1());
+  System::Windows::Forms::Application::EnableVisualStyles();
+  System::Windows::Forms::Application::SetCompatibleTextRenderingDefault(false);
+  System::Windows::Forms::Application::Run(gcnew CppCLRWinFormsProject::Form1());
   return 0;
 }
