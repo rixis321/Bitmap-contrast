@@ -86,6 +86,7 @@ namespace CppCLRWinFormsProject {
   private: System::Windows::Forms::Label^ label8;
   private: System::Windows::Forms::Label^ label9;
   private: System::Windows::Forms::Label^ label10;
+  private: System::Windows::Forms::Label^ label11;
 
 
 
@@ -132,6 +133,7 @@ namespace CppCLRWinFormsProject {
         this->label8 = (gcnew System::Windows::Forms::Label());
         this->label9 = (gcnew System::Windows::Forms::Label());
         this->label10 = (gcnew System::Windows::Forms::Label());
+        this->label11 = (gcnew System::Windows::Forms::Label());
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture1))->BeginInit();
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture2))->BeginInit();
         (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
@@ -322,19 +324,32 @@ namespace CppCLRWinFormsProject {
         // 
         // label10
         // 
-        this->label10->AutoSize = true;
-        this->label10->Location = System::Drawing::Point(681, 634);
+        this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            static_cast<System::Byte>(238)));
+        this->label10->Location = System::Drawing::Point(658, 634);
         this->label10->Name = L"label10";
-        this->label10->Size = System::Drawing::Size(51, 16);
+        this->label10->Size = System::Drawing::Size(156, 37);
         this->label10->TabIndex = 17;
-        this->label10->Text = L"label10";
-        
+        this->label10->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+        // 
+        // label11
+        // 
+        this->label11->BackColor = System::Drawing::SystemColors::ControlLight;
+        this->label11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            static_cast<System::Byte>(238)));
+        this->label11->Location = System::Drawing::Point(608, 605);
+        this->label11->Name = L"label11";
+        this->label11->Size = System::Drawing::Size(266, 29);
+        this->label11->TabIndex = 18;
+        this->label11->Text = L"Czas wykonania programu";
+        this->label11->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
         // 
         // Form1
         // 
         this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
         this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
         this->ClientSize = System::Drawing::Size(911, 703);
+        this->Controls->Add(this->label11);
         this->Controls->Add(this->label10);
         this->Controls->Add(this->label9);
         this->Controls->Add(this->label8);
@@ -569,7 +584,7 @@ private: System::Void startButton_Click(System::Object^ sender, System::EventArg
         parts.clear();
         delete[] buf;
 
-        this->label10->Text = this->time.ToString();
+        this->label10->Text = this->time.ToString() + " ms";
     }
     else {
         MessageBox::Show("Bitmap is not loaded. Open a file first. ", "INformation",
