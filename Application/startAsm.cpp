@@ -2,7 +2,7 @@
 #include "startAsm.h"
 
 
-	typedef int(_fastcall* AsmAlg)(unsigned char*, unsigned char*, int, int, float);
+	typedef void(_fastcall* AsmAlg)(unsigned char*, unsigned char*, int, int, float);
 	HINSTANCE dllHandle = LoadLibrary(TEXT("JaAsm.dll"));
 	AsmAlg procedura = (AsmAlg)GetProcAddress(dllHandle, "AsmAlg");
 

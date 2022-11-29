@@ -29,6 +29,7 @@ void cppAlg(unsigned char* buf, unsigned char* part, int start, int end, float f
 		part[iZero + 2] = truncate((float)(factor * (buf[i + 2] - 128) + 128));
 
 
+
 		iZero += 3; // przejscie do kolejnego piksela 
 
 	}
