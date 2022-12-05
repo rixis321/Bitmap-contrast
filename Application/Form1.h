@@ -470,7 +470,9 @@ private: System::Void startButton_Click(System::Object^ sender, System::EventArg
         MarshalString(this->path, tempPath); 
 
         FILE* input = fopen(tempPath.c_str(), "rb");
-        std::string outputPath = "C:/Users/zento/source/repos/rixis321/JA/Bitmap/output.bmp"; // sciezka zapisu wynikowej bitmapy
+        /* sciezka zapisu wynikowej bitmapy  */
+        //"C:/Users/zento/source/repos/rixis321/JA/Bitmap/output/output.bmp"; 
+        std::string outputPath = "C:/Users/zento/source/repos/rixis321/JA/Bitmap/output/output.bmp";
 
         FILE* output = fopen(outputPath.c_str(), "wb");
 
