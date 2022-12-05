@@ -1,6 +1,3 @@
-.data
-
-var1 dq 128
 
 .code
 
@@ -12,9 +9,10 @@ push r8		;poczatek czesci bitmapy
 push rcx		; bufor pikseli RGB
 push rdx		; czesc bitmapy
 
-mov r10, 128;
+
+mov r10, 128				;128 do rejestru r10
 movss xmm4,factor		; wspolczynnik kontrastu(factor) do xmm4
-movd xmm6,r10
+movd xmm6,r10			; wartosc rejestru r10 do xmm6
 
 xor r13,r13		        ; zerowanie iZero
 
@@ -26,26 +24,26 @@ cmp r8,r9		 ; porownanie startu z end
 jge endLoop		 ; jesli Startofpart => endofpart
 
 
-sub byte ptr [rcx+ r8], 128		    ; buf[i] - 128
-sub byte ptr [rcx+ r8 + 1], 128		; buf[i+1] - 128
-sub byte ptr [rcx+ r8 + 2], 128		; buf[i+2] - 128
+sub byte ptr [rcx+ r8], 128				; buf[i] - 128
+sub byte ptr [rcx+ r8 + 1], 128			; buf[i+1] - 128
+sub byte ptr [rcx+ r8 + 2], 128			; buf[i+2] - 128
 
-PMOVSXBD  xmm0,[rcx+r8]		;  4 wartosci do xmm0
-PMOVSXBD xmm1,[rcx+r8+1]
-PMOVSXBD xmm2,[rcx+r8+2]
+PMOVSXBD  xmm0,[rcx+r8]		;  konwersja byte na integer
+PMOVSXBD xmm1,[rcx+r8+1]		;  konwersja byte na integer
+PMOVSXBD xmm2,[rcx+r8+2]		;  konwersja byte na integer
 
 
-CVTDQ2PS xmm0,xmm0
-CVTDQ2PS xmm1,xmm1
-CVTDQ2PS xmm2,xmm2
+CVTDQ2PS xmm0,xmm0			; konwersja integer na float pojedynczej precyzji
+CVTDQ2PS xmm1,xmm1			; konwersja integer na float pojedynczej precyzji
+CVTDQ2PS xmm2,xmm2			; konwersja integer na float pojedynczej precyzji
 
 mulps xmm0,xmm4				; factor * buf[i] - 128
 mulps xmm1,xmm4				; factor * buf[i + 1] - 128
 mulps xmm2,xmm4				; factor * buf[i + 2] - 128
 
-cvtps2dq xmm0,xmm0
-cvtps2dq xmm1,xmm1
-cvtps2dq xmm2,xmm2
+cvtps2dq xmm0,xmm0			; konwersja floata pojedynczej precyzji na integer
+cvtps2dq xmm1,xmm1			; konwersja floata pojedynczej precyzji na integer
+cvtps2dq xmm2,xmm2			; konwersja floata pojedynczej precyzji na integer
 
 
 paddd xmm0,xmm6			; (factor * buf[i] - 128) + 128
@@ -53,8 +51,7 @@ paddd xmm1,xmm6			; (factor * buf[i + 1] - 128) + 128
 paddd xmm2,xmm6			; (factor * buf[i + 2] - 128) + 128
 
 
-;movd xmm5, xmm0			; konwersja na zmiennoprzecinkowe
-movd  eax, xmm0		; konwersja najmniej znaczacego elementu zmiennoprzecinkowego xmm5 na 32bitowy integer(dlateo eax a nie rax)
+movd  eax, xmm0		; wartosc rejestru xmm0 do eax
 
 cmp eax,255					; porownanie wartosci skladowej z 255
 jg g1						; jesli skladowa>255 to skok
@@ -66,11 +63,7 @@ mov byte ptr[rdx+r13], al	;zapisz obliczona pierwsza skladowa
 
 second:
 
-	
-	;movd xmm5, xmm1		; konwersja na zmiennoprzecinkowe
-	movd  eax, xmm1	; konwersja najmniej znaczacego elementu zmiennoprzecinkowego xmm5 na 32bitowy integer(dlateo eax a nie rax)
-
-
+	movd  eax, xmm1			; wartosc rejestru xmm1 do eax
 	cmp eax,255				; porownanie wartosci skladowej z 255
 	jg g2					; jesli skladowa>255 to skok
 	
@@ -84,7 +77,7 @@ second:
 third:
 	
 
-	movd  eax, xmm2	; konwersja najmniej znaczacego elementu zmiennoprzecinkowego xmm5 na 32bitowy integer(dlateo eax a nie rax)
+	movd  eax, xmm2			; wartosc rejestru xmm2 do eax
 	
 	cmp eax,255				; porownanie wartosci skladowej z 255
 	jg g3					; jesli skladowa>255 to skok

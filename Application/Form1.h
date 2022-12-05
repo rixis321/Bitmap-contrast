@@ -37,7 +37,7 @@ namespace CppCLRWinFormsProject {
       InitializeComponent();
 
       //max number of threads
-      this->maxNumbOfThreads = std::thread::hardware_concurrency();
+      this->maxNumbOfThreads = 64;
       this->label9->Text = this->maxNumbOfThreads.ToString();
       this->isLoaded = false;
       this->numberOfThreads = 1;
@@ -393,13 +393,13 @@ namespace CppCLRWinFormsProject {
   private: System::Void C_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
   }
   private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-      //DO ZROBIENIA
+      
       this->libraryFlag = false;
 
   }
 private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
     if (radioButton2->Checked) {
-        // DO ZROBIENIA
+        
         this->libraryFlag = true;
     }
 }
@@ -585,9 +585,12 @@ private: System::Void startButton_Click(System::Object^ sender, System::EventArg
         delete[] buf;
 
         this->label10->Text = this->time.ToString() + " ms";
+        MessageBox::Show("Image has been saved in project directory", "Information",
+            System::Windows::Forms::MessageBoxButtons::OK,
+            System::Windows::Forms::MessageBoxIcon::Information);
     }
     else {
-        MessageBox::Show("Bitmap is not loaded. Open a file first. ", "INformation",
+        MessageBox::Show("Bitmap is not loaded. Open a file first. ", "Information",
             System::Windows::Forms::MessageBoxButtons::OK,
             System::Windows::Forms::MessageBoxIcon::Information);
     }
