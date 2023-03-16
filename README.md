@@ -2,8 +2,8 @@
 
 Project for changing a contrast of a bitmap. Algorithm is implemented in C++ and ASM. GUI was done using Window Forms
 
-<br />
-![image](https://user-images.githubusercontent.com/58139675/225696048-7bfd76db-5b39-47fa-9988-704077a703e2.png)
+
+![image](https://user-images.githubusercontent.com/58139675/225696558-5c76eef4-422e-4fce-8221-186d02484b16.png)
 <br />
 <br />
 ![image](https://user-images.githubusercontent.com/58139675/225696136-80f99817-1fda-446a-be2a-73204f88a7b4.png)
